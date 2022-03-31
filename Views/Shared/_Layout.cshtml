@@ -27,18 +27,10 @@
         </nav>
     </header>
 
-    <div class="row m-1 p-1">
-
-        <div id="teams" class="col-3">
-            <vc:teams></vc:teams>
+    <div class="container">
+        <div>
+            @RenderBody()
         </div>
-
-        <div class="col-9">
-            <div>
-                @RenderBody()
-            </div>
-        </div>
-
     </div>
 
     <footer class="border-top footer text-muted">

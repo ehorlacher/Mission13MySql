@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Team Sort";
+}
+
+@model List<Bowler>
+
+@if (ViewBag.Team == 1)
+{
+    <h1 class="text-center">Marlins</h1>
+}
+else if (ViewBag.Team == 2)
+{
+    <h1 class="text-center">Sharks</h1>
+}
+else if (ViewBag.Team == 3)
+{
+<h1 class="text-center">Terrapins</h1>
+}
+else if (ViewBag.Team == 4)
+{
+<h1 class="text-center">Barracudas</h1>
+}
+else if (ViewBag.Team == 5)
+{
+<h1 class="text-center">Dolphins</h1>
+}
+else if (ViewBag.Team == 6)
+{
+<h1 class="text-center">Orcas</h1>
+}
+else if (ViewBag.Team == 7)
+{
+<h1 class="text-center">Manatees</h1>
+}
+else if (ViewBag.Team == 8)
+{
+<h1 class="text-center">Swordfish</h1>
+}
+else if (ViewBag.Team == 9)
+{
+<h1 class="text-center">Huckleberrys</h1>
+}
+else if (ViewBag.Team == 10)
+{
+<h1 class="text-center">MintJuleps</h1>
+}
+
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Show All</a>
+<table class="table table-bordered table-striped">
+
+    <thead class="font-weight-bold">
+        <tr>
+            <td>Last Name</td>
+            <td>First Name</td>
+            <td>Middle Initial</td>
+            <td>Address</td>
+            <td>City</td>
+            <td>State</td>
+            <td>Zip</td>
+            <td>Phone</td>
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var x in Model)
+        {
+            @if (x.TeamID == ViewBag.Team)
+            {
+                <tr>
+                    <td>@x.BowlerLastName</td>
+                    <td>@x.BowlerFirstName</td>
+                    <td>@x.BowlerMiddleInit</td>
+                    <td>@x.BowlerAddress</td>
+                    <td>@x.BowlerCity</td>
+                    <td>@x.BowlerState</td>
+                    <td>@x.BowlerZip</td>
+                    <td>@x.BowlerPhoneNumber</td>
+                    <td><a asp-controller="Home" asp-action="Edit" asp-route-bowlerid="@x.BowlerID">Edit</a></td>
+                    <td><a asp-controller="Home" asp-action="Delete" asp-route-bowlerid="@x.BowlerID" onclick="return confirm('WARNING! This action cannot be undone');">Delete</a></td>
+
+                </tr>
+            }
+
+        }
+    </tbody>
+
+</table>

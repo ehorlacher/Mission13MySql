@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mission13MySql.Models
 {
@@ -15,12 +14,8 @@ namespace Mission13MySql.Models
 
         public IQueryable<Bowler> Bowlers => _context.Bowlers;
 
-        public IQueryable<Team> Teams => _context.Teams;
-
-
         public void SaveBowler(Bowler b)
         {
-            _context.Update(b);
             _context.SaveChanges();
         }
 
@@ -32,7 +27,7 @@ namespace Mission13MySql.Models
 
         public void DeleteBowler(Bowler b)
         {
-            _context.Remove(b);
+            _context.Bowlers.Remove(b);
             _context.SaveChanges();
         }
     }

@@ -19,7 +19,6 @@ namespace Mission13MySql.Models
         public string BowlerState { get; set; }
         public string BowlerZip { get; set; }
         public string BowlerPhoneNumber { get; set; }
-        [FoKey]
         public int TeamID { get; set; }
     }
 }

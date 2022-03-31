@@ -60,6 +60,14 @@ namespace Mission13MySql
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("Edit", "bowlerid{bowlerid}", new { Controller = "Home", action = "Index" });
+                endpoints.MapControllerRoute("Team", "team{teamid}", new { Controller = "Home", action = "Index" });
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+
             });
         }
     }
