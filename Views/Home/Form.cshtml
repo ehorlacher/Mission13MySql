@@ -1,65 +1,63 @@
 ﻿@{
-    ViewData["Title"] = "New Bowler";
+    ViewData["Title"] = "Bowler Form";
 }
 
 @model Bowler
+    <form class="m-2" method="post" asp-controller="Home" asp-action="Form">
+        <h2>Add a Bowler <div style="color:red;" asp-validation-summary="All"></div></h2>
+        @{if (Model != null)
+            {
+                <input type="hidden" asp-for="BowlerID" />
+            }
 
-<h1>Add a Bowler</h1>
-
-<div class="text-right">
-    <form method="post" asp-controller="Home" asp-action="Form">
-        <h2>Enter bowler details here:</h2>
-
-        @*<input asp-for="BowlerID" type="hidden" required />
-            <br />*@
-        <br />
-        <label asp-for="BowlerFirstName">First Name:</label>
-        <input asp-for="BowlerFirstName" />
-        <br />
-        <label asp-for="BowlerMiddleInit">Middle Initial:</label>
-        <input asp-for="BowlerMiddleInit" />
-        <br />
-        <label asp-for="BowlerLastName">Last Name:</label>
-        <input asp-for="BowlerLastName" />
-        <br />
-        <label asp-for="BowlerAddress">Address:</label>
-        <input asp-for="BowlerAddress" />
-        <br />
-        <label asp-for="BowlerCity">City:</label>
-        <input asp-for="BowlerCity" />
-        <br />
-        <label asp-for="BowlerState">State:</label>
-        <input asp-for="BowlerState" />
-        <br />
-        <label asp-for="BowlerZip">Zipcode:</label>
-        <input asp-for="BowlerZip" />
-        <br />
-        <label asp-for="BowlerPhoneNumber">Phone:</label>
-        <input asp-for="BowlerPhoneNumber" />
-        <br />
-        <label asp-for="TeamID">Team:</label>
-        <select asp-for="TeamID" required>
-            <option value="">Select Category</option>
-
-            <option value="1">Marlins</option>
-            <option value="2">Sharks</option>
-            <option value="3">Terrapins</option>
-            <option value="4">Barracudas</option>
-            <option value="5">Dolphins</option>
-            <option value="6">Orcas</option>
-            <option value="7">Manatees</option>
-            <option value="8">Swordfish</option>
-            <option value="9">Huckleberrys</option>
-            <option value="10">MintJuleps</option>
-
-
-        </select>
-        <br />
-        <br />
+        }
+        <h4>Name</h4>
+        <div class="form-group m-2">
+            <label asp-for="BowlerLastName">Bowler Last Name:</label>
+            <input asp-for="BowlerLastName" class="form-control" />
+        </div>
+        <div class="form-group m-2">
+            <label asp-for="BowlerFirstName">Bowler First Name:</label>
+            <input asp-for="BowlerFirstName" class="form-control" />
+        </div>
+        <div class="form-group m-2">
+            <label asp-for="BowlerMiddleInit">Bowler Middle  Initial:</label>
+            <input asp-for="BowlerMiddleInit" class="form-control" />
+        </div>
+        <h4>Address</h4>
+        <div class="form-group m-2">
+            <label asp-for="BowlerAddress">Address:</label>
+            <input asp-for="BowlerAddress" class="form-control" />
+        </div>
+        <div class="form-group m-2">
+            <label asp-for="BowlerCity">City:</label>
+            <input asp-for="BowlerCity" class="form-control" />
+        </div>
+        <div class="form-group m-2">
+            <label asp-for="BowlerState">State:</label>
+            <input asp-for="BowlerState" class="form-control" />
+        </div>
+        <div class="form-group m-2">
+            <label asp-for="BowlerZip">Zip:</label>
+            <input asp-for="BowlerZip" class="form-control" />
+        </div>
+        <div class="form-group m-2">
+            <label asp-for="BowlerPhoneNumber">Phone Number:</label>
+            <input asp-for="BowlerPhoneNumber" class="form-control" />
+        </div>
+        <h4>Team</h4>
+        <div class="form-group m-2">
+            <label asp-for="TeamID">Team:</label>
+            <select asp-for="TeamID" class="form-control">
+                <option value="">Select a Team</option>
+                @foreach (Team t in ViewBag.Teams)
+                {
+                    <option value="@t.TeamID">@t.TeamName</option>
+                }
+            </select>
+        </div>
+        <a asp-controller="Home" asp-action="Index" type="submit" class="btn btn-secondary btn-sm">Cancel</a>
         <button type="submit" class="btn btn-success btn-sm">Save</button>
 
-        <br />
-        <br />
-        <div asp-validation-summary="All"></div>
+        
     </form>
-</div>

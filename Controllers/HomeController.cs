@@ -1,94 +1,111 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Mission13MySql.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Mission13MySql.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mission13MySql.Controllers
 {
     public class HomeController : Controller
     {
-        private IBowlersRepository _repo { get; set; }
-
-        public HomeController(IBowlersRepository temp)
+        private IBowlersRepository _repoBowler { get; set; }
+        private ITeamsRepository _repoTeam { get; set; }
+        public HomeController(IBowlersRepository bowl, ITeamsRepository team)
         {
-            _repo = temp;
+            _repoBowler = bowl;
+            _repoTeam = team;
         }
+        
 
-        //home page
         public IActionResult Index()
         {
-            var blah = _repo.Bowlers
+            ViewBag.Teams = _repoTeam.Teams
+                .ToList();
+            
+            var bowlers = _repoBowler.Bowlers
+                .Include(x=> x.Team)
+                .OrderBy(x => x.BowlerID)
                 .ToList();
 
-            return View(blah);
+            return View(bowlers);
         }
-
-        //filter
-        public IActionResult Team(int teamid)
+        public IActionResult Filtered(int id)
         {
-            var team = _repo.Bowlers
-                 .ToList();
-            ViewBag.Team = teamid;
+            ViewBag.Teams = _repoTeam.Teams
+                .ToList();
 
-            return View(team);
+            ViewBag.Selected = _repoTeam.Teams
+                .Single(x => x.TeamID == id);
+                
+
+            var bowlers = _repoBowler.Bowlers
+                .Include(x => x.Team)
+                .Where(x=>x.TeamID == id)
+                .ToList();
+
+            return View(bowlers);
         }
 
+        public IActionResult NewBowler()
+        {
+            ViewBag.Teams = _repoTeam.Teams
+                .ToList();
 
-        //the form
+            return View("Form");
+        }
         [HttpGet]
         public IActionResult Form()
         {
+            ViewBag.Teams = _repoTeam.Teams
+                .ToList();
+
             return View();
         }
-
         [HttpPost]
         public IActionResult Form(Bowler b)
         {
+            ViewBag.Teams = _repoTeam.Teams
+                .ToList();
             if (ModelState.IsValid)
             {
                 if (b.BowlerID == 0)
                 {
-                    _repo.CreateBowler(b);
-                    return RedirectToAction("Confirmation");
+                    _repoBowler.CreateBowler(b);
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    _repo.SaveBowler(b);
-                    return View("Confirmation");
+                    _repoBowler.SaveBowler(b);
+                    return RedirectToAction("Index");
                 }
             }
             else
             {
-                return View();
+                return View(b);
             }
         }
-
-        //edit
-        public IActionResult Edit(int bowlerid)
+        public IActionResult Edit(int id)
         {
-            var bowler = _repo.Bowlers
-                 .Single(x => x.BowlerID == bowlerid);
+            ViewBag.Teams = _repoTeam.Teams
+                .ToList();
 
+            var bowlers = _repoBowler.Bowlers
+                .Single(x => x.BowlerID == id);
 
-            return View("Form", bowler);
+            return View("Form",bowlers);
         }
-
-
-        //delete
-        public IActionResult Delete(int bowlerid)
+        
+        public IActionResult Delete(int id)
         {
-            var bowler = _repo.Bowlers
-                 .Single(x => x.BowlerID == bowlerid);
-            _repo.DeleteBowler(bowler);
+            var bowlers = _repoBowler.Bowlers
+                .Single(x => x.BowlerID == id);
+            _repoBowler.DeleteBowler(bowlers);
 
             return RedirectToAction("Index");
         }
-        public IActionResult Confirmation() => View();
-
     }
 }

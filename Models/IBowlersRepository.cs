@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Mission13MySql.Models;
 
-namespace Mission13MySql.Models
+namespace Mission13MySql
 {
     public interface IBowlersRepository
     {
         IQueryable<Bowler> Bowlers { get; }
 
-        public void CreateBowler(Bowler b);
         public void SaveBowler(Bowler b);
+        public void CreateBowler(Bowler b);
         public void DeleteBowler(Bowler b);
-
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Mission13MySql.Models
@@ -7,7 +6,7 @@ namespace Mission13MySql.Models
     public class EFBowlersRepository : IBowlersRepository
     {
         private BowlersDbContext _context { get; set; }
-        public EFBowlersRepository (BowlersDbContext temp)
+        public EFBowlersRepository(BowlersDbContext temp)
         {
             _context = temp;
         }
@@ -16,6 +15,7 @@ namespace Mission13MySql.Models
 
         public void SaveBowler(Bowler b)
         {
+            _context.Update(b);
             _context.SaveChanges();
         }
 
@@ -27,9 +27,8 @@ namespace Mission13MySql.Models
 
         public void DeleteBowler(Bowler b)
         {
-            _context.Bowlers.Remove(b);
+            _context.Remove(b);
             _context.SaveChanges();
         }
     }
-
 }

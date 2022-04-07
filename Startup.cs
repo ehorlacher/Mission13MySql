@@ -1,3 +1,8 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Mission13MySql.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,11 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Mission13MySql.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mission13MySql
 {
@@ -26,13 +26,16 @@ namespace Mission13MySql
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
             services.AddDbContext<BowlersDbContext>(options =>
-           {
-               options.UseMySql(Configuration["ConnectionStrings:BowlersDbConnection"]);
-           });
-
+            {
+                options.UseMySql(Configuration["ConnectionStrings:BowlersDbConnection"]);
+            });
+            services.AddDbContext<TeamsDbContext>(options =>
+            {
+                options.UseMySql(Configuration["ConnectionStrings:BowlersDbConnection"]);
+            });
             services.AddScoped<IBowlersRepository, EFBowlersRepository>();
+            services.AddScoped<ITeamsRepository, EFTeamsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,14 +63,6 @@ namespace Mission13MySql
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("Edit", "bowlerid{bowlerid}", new { Controller = "Home", action = "Index" });
-                endpoints.MapControllerRoute("Team", "team{teamid}", new { Controller = "Home", action = "Index" });
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-
             });
         }
     }

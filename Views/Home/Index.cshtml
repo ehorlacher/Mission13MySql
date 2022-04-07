@@ -6,20 +6,6 @@
 
 <div class="card mx-center">
 
-    <div>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="1" class="btn btn-primary">Marlins</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="2" class="btn btn-primary">Sharks</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="3" class="btn btn-primary">Terrapins</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="4" class="btn btn-primary">Barracudas</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="5" class="btn btn-primary">Dolphins</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="6" class="btn btn-primary">Orcas</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="7" class="btn btn-primary">Manatees</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="8" class="btn btn-primary">Swordfish</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="9" class="btn btn-primary">Huckleberrys</a>
-        <a asp-controller="Home" asp-action="Team" asp-route-teamid="10" class="btn btn-primary">MintJuleps</a>
-        <br />
-        <br />
-    </div>
 
     <table class="table table-bordered table-striped">
 
@@ -34,7 +20,19 @@
                 <td>State</td>
                 <td>Zipcode</td>
                 <td>Phone</td>
-                <td>TeamID</td>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filter Teams
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @foreach (Team t in ViewBag.Teams)
+                            {
+                                <a class="dropdown-item" asp-controller="Home" asp-action="Filtered" asp-route-id="@t.TeamID">@t.TeamName</a>
+                            }
+                        </div>
+                    </div>
+                </th>
             </tr>
         </thead>
 
@@ -54,8 +52,11 @@
                     <td>@x.BowlerPhoneNumber</td>
                     <td>@x.TeamID</td>
 
-                    <td><a asp-controller="Home" asp-action="Edit" asp-route-applicationid="@x.BowlerID">Edit</a></td>
-                    <td><a asp-controller="Home" asp-action="Delete" asp-route-applicationid="@x.BowlerID">Delete</a></td>
+                    <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@x.BowlerID">Edit</a></td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Delete" asp-route-id="@x.BowlerID"
+                           onclick="return confirm('WARNING! This action cannot be undone');">Delete</a>
+                    </td>
                 </tr>
             }
         </tbody>
